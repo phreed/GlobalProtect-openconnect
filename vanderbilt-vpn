@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Vanderbilt VPN - Simple Connection Script
+# This is a convenient alias for the gpclientw.py wrapper
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WRAPPER="$SCRIPT_DIR/gpclientw.py"
+
+# Default to Vanderbilt VPN server if no server specified
+if [ $# -eq 0 ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+    if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+        echo "Vanderbilt VPN - Simple Connection Tool"
+        echo ""
+        echo "Usage:"
+        echo "  $0                    # Connect to Vanderbilt VPN (root mode with HIP)"
+        echo "  $0 status            # Show VPN status"
+        echo "  $0 disconnect        # Disconnect VPN"
+        echo "  $0 user              # Connect in user mode"
+        echo "  $0 --help            # Show this help"
+        echo ""
+        echo "For advanced options, use: python3 gpclientw.py --help"
+        exit 0
+    fi
+
+    # Default connection
+    exec python3 "$WRAPPER" connect.vanderbilt.edu --hip
+
+elif [ "$1" = "status" ]; then
+    exec python3 "$WRAPPER" --status
+
+elif [ "$1" = "disconnect" ]; then
+    exec python3 "$WRAPPER" --disconnect
+
+elif [ "$1" = "user" ]; then
+    exec python3 "$WRAPPER" connect.vanderbilt.edu --hip -m user
+
+else
+    # Pass all arguments to the wrapper
+    exec python3 "$WRAPPER" "$@"
+fi
