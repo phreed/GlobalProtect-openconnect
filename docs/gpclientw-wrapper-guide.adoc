@@ -1,0 +1,669 @@
+= gpclientw.py - GlobalProtect OpenConnect Client Wrapper
+:toc: left
+:toclevels: 3
+:sectlinks:
+:sectanchors:
+:icons: font
+:source-highlighter: highlight.js
+
+A comprehensive Python wrapper for the GlobalProtect OpenConnect client that simplifies VPN connections, handles version compatibility issues, and provides multiple connection modes.
+
+== Overview
+
+The `gpclientw.py` wrapper is a unified solution that combines the functionality of multiple connection scripts into a single, powerful tool. It automatically handles version compatibility issues, provides HIP (Host Integrity Protection) support, and offers multiple connection modes for different use cases.
+
+=== Key Features
+
+* ✅ *Automatic Version Override*: Fixes "Please ensure the compatible GlobalProtect version is: 6.1.4 or above" errors
+* ✅ *HIP Report Support*: Automatic Host Integrity Protection compliance reporting
+* ✅ *Multiple Connection Modes*: User, root, and userspace modes
+* ✅ *Dynamic Gateway Selection*: Automatically selects appropriate gateways
+* ✅ *Comprehensive Error Handling*: Clear error messages and troubleshooting
+* ✅ *Status Monitoring*: Real-time VPN connection status
+* ✅ *Clean Disconnection*: Proper cleanup and process management
+* ✅ *Cross-Platform*: Works on Linux, macOS, and WSL
+
+== Quick Start
+
+=== Installation Prerequisites
+
+Before using the wrapper, ensure the required components are built:
+
+[source,bash]
+----
+# Build the required binaries
+pixi run develop-cli
+
+# Create the version override library
+pixi run create-gp-version-override
+----
+
+=== Simple Usage for Vanderbilt VPN
+
+The project includes a convenient alias script for Vanderbilt University connections:
+
+[source,bash]
+----
+# Connect to Vanderbilt VPN with optimal settings
+./vanderbilt-vpn
+
+# Check connection status
+./vanderbilt-vpn status
+
+# Disconnect
+./vanderbilt-vpn disconnect
+
+# Connect in user mode (no root required)
+./vanderbilt-vpn user
+----
+
+=== Advanced Usage
+
+For more control and other VPN servers:
+
+[source,bash]
+----
+# Connect with custom settings
+python3 gpclientw.py connect.vanderbilt.edu --hip --client-version 6.3.3
+
+# Connect to specific gateway
+python3 gpclientw.py connect.vanderbilt.edu -g "US South" --hip
+
+# Connect in user mode
+python3 gpclientw.py connect.vanderbilt.edu -m user --hip
+
+# Show detailed status
+python3 gpclientw.py --status
+
+# Disconnect all connections
+python3 gpclientw.py --disconnect
+----
+
+== Connection Modes
+
+The wrapper supports three distinct connection modes, each suited for different scenarios:
+
+=== Root Mode (Default - Recommended)
+
+[cols="1,3"]
+|===
+|Feature |Description
+
+|*Full VPN functionality*
+|Complete network routing and DNS configuration
+
+|*Requires sudo*
+|Prompts for password when needed
+
+|*Network routing*
+|Configures system routes for VPN traffic
+
+|*DNS configuration*
+|Sets up VPN DNS servers
+
+|*Access scope*
+|Full access to all internal resources
+|===
+
+[source,bash]
+----
+python3 gpclientw.py connect.vanderbilt.edu --hip
+----
+
+=== User Mode
+
+[cols="1,3"]
+|===
+|Feature |Description
+
+|*No root privileges*
+|Runs entirely as regular user
+
+|*Limited functionality*
+|Authentication and tunnel establishment only
+
+|*No system changes*
+|No routing or DNS modifications
+
+|*Use case*
+|Testing authentication, debugging
+|===
+
+[source,bash]
+----
+python3 gpclientw.py connect.vanderbilt.edu -m user --hip
+----
+
+=== Userspace Mode
+
+[cols="1,3"]
+|===
+|Feature |Description
+
+|*Experimental*
+|Alternative networking approach
+
+|*No root required*
+|Uses userspace networking
+
+|*Limited compatibility*
+|May require additional configuration
+
+|*Use case*
+|Restricted environments, testing
+|===
+
+[source,bash]
+----
+python3 gpclientw.py connect.vanderbilt.edu -m userspace --hip
+----
+
+== Command Line Reference
+
+=== Basic Options
+
+[cols="2,3,1"]
+|===
+|Option |Description |Default
+
+|`server`
+|VPN server hostname (e.g., connect.vanderbilt.edu)
+|Required
+
+|`-m, --mode`
+|Connection mode: `user`, `root`, or `userspace`
+|`root`
+
+|`-g, --gateway`
+|Specific gateway name
+|Auto-select
+
+|`--client-version`
+|GlobalProtect version to report
+|`6.3.0`
+|===
+
+=== Feature Flags
+
+[cols="2,3,1"]
+|===
+|Option |Description |Default
+
+|`--hip`
+|Enable HIP (Host Integrity Protection) reporting
+|Disabled
+
+|`--fix-openssl`
+|Fix SSL renegotiation issues
+|Enabled
+
+|`--ignore-tls-errors`
+|Ignore certificate errors
+|Enabled
+|===
+
+=== Network Configuration
+
+[cols="2,4"]
+|===
+|Option |Description
+
+|`--interface`
+|Specify VPN interface name
+
+|`--script`
+|Path to custom VPNC script
+
+|`--mtu`
+|Set MTU size for VPN interface
+
+|`--disable-ipv6`
+|Disable IPv6 on VPN connection
+
+|`--no-dtls`
+|Disable DTLS and use TLS only
+|===
+
+=== Utility Commands
+
+[cols="2,4"]
+|===
+|Command |Description
+
+|`--status`
+|Show current VPN connection status
+
+|`--disconnect`
+|Disconnect all active VPN connections
+
+|`--help`
+|Display help message and usage examples
+
+|`-v, --verbose`
+|Enable verbose logging output
+
+|`--no-color`
+|Disable colored terminal output
+|===
+
+== Usage Examples
+
+=== Vanderbilt University Examples
+
+[source,bash]
+----
+# Standard connection with HIP support (recommended)
+python3 gpclientw.py connect.vanderbilt.edu --hip
+
+# Connect to specific gateway
+python3 gpclientw.py connect.vanderbilt.edu -g "US South" --hip
+
+# User mode for testing authentication
+python3 gpclientw.py connect.vanderbilt.edu -m user --hip
+
+# Custom client version
+python3 gpclientw.py connect.vanderbilt.edu --hip --client-version 6.3.3
+
+# With verbose logging
+python3 gpclientw.py connect.vanderbilt.edu --hip -v
+----
+
+=== Generic GlobalProtect Servers
+
+[source,bash]
+----
+# Basic connection to any GlobalProtect server
+python3 gpclientw.py vpn.company.com --hip
+
+# With custom MTU for network optimization
+python3 gpclientw.py vpn.company.com --hip --mtu 1200
+
+# Disable IPv6 if causing issues
+python3 gpclientw.py vpn.company.com --hip --disable-ipv6
+
+# Force TLS-only mode
+python3 gpclientw.py vpn.company.com --hip --no-dtls
+----
+
+=== Management Commands
+
+[source,bash]
+----
+# Check current VPN status
+python3 gpclientw.py --status
+
+# Disconnect all VPN connections
+python3 gpclientw.py --disconnect
+
+# Show help with all options
+python3 gpclientw.py --help
+----
+
+== Troubleshooting
+
+=== Version Compatibility Issues
+
+The wrapper automatically resolves these common GlobalProtect version errors:
+
+* ❌ "Please ensure the compatible GlobalProtect version is: 6.1.4 or above"
+* ❌ "CAS is not supported by the client. Minimum client version is 6.0"
+
+*Solution*: The wrapper automatically configures both `clientVer` and `app-version` parameters with modern version numbers.
+
+=== Connection Problems
+
+==== Step 1: Check Status
+
+[source,bash]
+----
+# Get comprehensive status information
+python3 gpclientw.py --status
+----
+
+==== Step 2: Enable Verbose Logging
+
+[source,bash]
+----
+# Run with detailed logging
+python3 gpclientw.py connect.vanderbilt.edu --hip -v
+----
+
+==== Step 3: Try User Mode
+
+[source,bash]
+----
+# Test authentication without root requirements
+python3 gpclientw.py connect.vanderbilt.edu -m user --hip
+----
+
+=== Permission Issues
+
+==== Missing Binaries
+
+[source,bash]
+----
+# Rebuild required components
+pixi run develop-cli
+
+# Recreate version override library
+pixi run create-gp-version-override
+
+# Verify files exist
+ls -la target/release/gpclient target/release/gpauth gp_version_override.so
+----
+
+==== Root Permission Problems
+
+[source,bash]
+----
+# Ensure user is in sudoers
+sudo -l
+
+# Test sudo access
+sudo echo "Sudo access confirmed"
+----
+
+=== SSL/TLS Certificate Issues
+
+The wrapper automatically handles most SSL problems, but for persistent issues:
+
+[source,bash]
+----
+# Force SSL fixes and ignore certificate errors
+python3 gpclientw.py connect.vanderbilt.edu --hip --fix-openssl --ignore-tls-errors
+----
+
+=== HIP Report Issues
+
+==== Check HIP Script Availability
+
+[source,bash]
+----
+# Verify HIP script exists and is executable
+ls -la /usr/libexec/openconnect/hipreport.sh
+----
+
+==== Install OpenConnect
+
+If the HIP script is missing, install OpenConnect:
+
+[source,bash]
+----
+# Ubuntu/Debian
+sudo apt install openconnect
+
+# RHEL/CentOS/Fedora
+sudo dnf install openconnect
+
+# macOS
+brew install openconnect
+----
+
+== Status Monitoring
+
+=== Comprehensive Status Check
+
+The wrapper provides detailed status information:
+
+[source,bash]
+----
+python3 gpclientw.py --status
+----
+
+.Example Status Output
+----
+VPN Status Check
+==================================================
+✅ gpclient processes running: 1234, 5678
+✅ VPN interface (tun0) detected
+
+Testing Vanderbilt connectivity...
+✅ Can access internal Vanderbilt resources
+----
+
+=== Network Verification
+
+After connecting, verify VPN functionality:
+
+[source,bash]
+----
+# Check VPN interface configuration
+ip addr show tun0
+
+# Verify routing table
+ip route show
+
+# Check DNS configuration
+resolvectl status
+
+# Test internal connectivity (Vanderbilt example)
+curl -I https://face-git.isis.vanderbilt.edu
+----
+
+=== Manual Status Checks
+
+[source,bash]
+----
+# Check for running gpclient processes
+pgrep -f gpclient
+
+# View VPN interface details
+ip addr show | grep -A5 tun0
+
+# Check VPN routes
+ip route show | grep tun0
+
+# Test DNS resolution for internal domains
+nslookup face-git.isis.vanderbilt.edu
+----
+
+== Security Considerations
+
+=== HIP Reports and Compliance
+
+Host Integrity Protection (HIP) reports are security assessments that:
+
+* Submit system information for compliance verification
+* Include: OS version, patch level, antivirus status, firewall configuration
+* Are required by many enterprise VPN environments
+* Help ensure connecting devices meet security standards
+
+Enable HIP reporting with the `--hip` flag for compliance with organizational policies.
+
+=== Version Spoofing
+
+The wrapper reports a modern GlobalProtect client version (default: 6.3.0) to:
+
+* Bypass outdated version restrictions on servers
+* Ensure compatibility with modern GlobalProtect features
+* Avoid "version too old" errors
+
+This is accomplished through:
+
+* Direct parameter modification in the gpclient code
+* LD_PRELOAD override for OpenConnect integration
+* No actual GlobalProtect client installation required
+
+=== Root Privilege Handling
+
+Root mode operates securely by:
+
+* Performing authentication as a regular user first
+* Using sudo only for VPN tunnel creation and network configuration
+* Storing temporary authentication cookies with restricted permissions
+* Cleaning up all temporary files after connection
+
+== Integration and Automation
+
+=== Shell Aliases
+
+Add convenient aliases to your shell configuration:
+
+[source,bash]
+----
+# Add to ~/.bashrc or ~/.zshrc
+alias vpn-connect="python3 /path/to/gpclientw.py connect.vanderbilt.edu --hip"
+alias vpn-status="python3 /path/to/gpclientw.py --status"
+alias vpn-disconnect="python3 /path/to/gpclientw.py --disconnect"
+----
+
+=== Systemd Service
+
+For automatic VPN connection at boot, create `/etc/systemd/system/vanderbilt-vpn.service`:
+
+[source,ini]
+----
+[Unit]
+Description=Vanderbilt VPN Connection
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/path/to/gpoc
+Environment=GP_APP_VERSION=6.3.0
+Environment=LD_PRELOAD=/path/to/gpoc/gp_version_override.so
+ExecStart=/usr/bin/python3 /path/to/gpoc/gpclientw.py connect.vanderbilt.edu --hip
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+----
+
+Enable and start the service:
+
+[source,bash]
+----
+sudo systemctl enable vanderbilt-vpn.service
+sudo systemctl start vanderbilt-vpn.service
+----
+
+=== Cron Job for Automatic Reconnection
+
+Create a cron job to maintain VPN connectivity:
+
+[source,bash]
+----
+# Add to crontab with: crontab -e
+*/5 * * * * /usr/bin/python3 /path/to/gpclientw.py --status || /usr/bin/python3 /path/to/gpclientw.py connect.vanderbilt.edu --hip
+----
+
+== File Structure and Components
+
+=== Project Layout
+
+----
+gpoc/
+├── gpclientw.py              # Main Python wrapper script
+├── vanderbilt-vpn            # Simple connection alias
+├── target/release/
+│   ├── gpclient             # Core VPN client binary
+│   └── gpauth               # Authentication helper binary
+├── gp_version_override.so   # Version override library
+├── docs/
+│   └── gpclientw-wrapper-guide.adoc  # This documentation
+└── scripts/
+    ├── openconnect-gp       # Alternative wrapper script
+    └── create-gp-version-override.sh # Setup script
+----
+
+=== Environment Variables
+
+The wrapper automatically configures these environment variables:
+
+[cols="2,4"]
+|===
+|Variable |Purpose
+
+|`GP_APP_VERSION`
+|Sets the GlobalProtect version reported to servers
+
+|`LD_PRELOAD`
+|Loads the version override library for OpenConnect
+|===
+
+=== Dependencies
+
+Required system components:
+
+* Python 3.6 or later
+* OpenConnect with GlobalProtect support
+* Sudo access for root mode
+* HIP report script (usually provided by OpenConnect)
+
+== Advanced Configuration
+
+=== Custom VPNC Scripts
+
+You can specify custom VPNC scripts for specialized network configurations:
+
+[source,bash]
+----
+# Use custom script for DNS or routing modifications
+python3 gpclientw.py connect.vanderbilt.edu --hip --script /path/to/custom-vpnc-script
+----
+
+=== MTU Optimization
+
+For networks with MTU restrictions:
+
+[source,bash]
+----
+# Set specific MTU size
+python3 gpclientw.py connect.vanderbilt.edu --hip --mtu 1200
+
+# For environments with very restrictive MTU
+python3 gpclientw.py connect.vanderbilt.edu --hip --mtu 1000
+----
+
+=== Interface Naming
+
+Specify custom interface names:
+
+[source,bash]
+----
+# Use custom interface name
+python3 gpclientw.py connect.vanderbilt.edu --hip --interface vpn0
+----
+
+== Contributing and Development
+
+=== Reporting Issues
+
+When reporting problems, include:
+
+* Full command line used
+* Complete output with `-v` verbose flag
+* Output of `--status` command
+* Operating system and version
+* OpenConnect version: `openconnect --version`
+
+=== Code Structure
+
+The wrapper follows these principles:
+
+* Clear separation of concerns (auth, connection, status)
+* Comprehensive error handling with meaningful messages
+* Modular design for easy extension
+* Consistent command-line interface
+
+=== Adding Features
+
+To extend the wrapper:
+
+1. Follow the existing class structure in `GlobalProtectWrapper`
+2. Add appropriate command-line arguments
+3. Update help text and documentation
+4. Test across multiple platforms and scenarios
+
+== Acknowledgments
+
+This wrapper builds upon several excellent projects and techniques:
+
+* *GlobalProtect OpenConnect Project*: Core VPN functionality
+* *LD_PRELOAD Version Override*: Elegant solution for version compatibility
+* *OpenConnect HIP Integration*: Host integrity protection support
+* *Community Contributions*: Various GlobalProtect client implementations
+
+The wrapper represents a culmination of community efforts to provide reliable, feature-rich GlobalProtect connectivity using open-source tools.

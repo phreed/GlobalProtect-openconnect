@@ -65,6 +65,48 @@ The Developer's Guide provides comprehensive information for anyone working on t
 * Code quality standards and practices
 * Troubleshooting development issues
 
+=== link:gpclientw-wrapper-guide.adoc[gpclientw.py Wrapper Guide]
+
+**Target Audience**: End users, system administrators, and automation engineers
+
+The gpclientw.py Wrapper Guide provides comprehensive documentation for the unified Python wrapper that simplifies GlobalProtect VPN connections. It covers:
+
+* **Quick Start**: Simple connection methods for common scenarios
+* **Multiple Connection Modes**: User, root, and userspace operation modes
+* **Version Compatibility**: Automatic fixes for "6.1.4 or above" errors
+* **HIP Support**: Host Integrity Protection compliance reporting
+* **Troubleshooting**: Common issues and solutions
+* **Integration**: Shell aliases, systemd services, and automation
+
+**Key Topics**:
+
+* Installation and setup procedures
+* Command-line interface and options
+* Connection modes and use cases
+* Status monitoring and management
+* Security considerations and best practices
+* Advanced configuration and customization
+
+=== link:implementation-summary.adoc[Implementation Summary]
+
+**Target Audience**: Developers, project maintainers, and technical stakeholders
+
+The Implementation Summary provides a comprehensive overview of the gpclientw.py wrapper development process and the solutions implemented to resolve GlobalProtect version compatibility issues. It covers:
+
+* **Problem Analysis**: Detailed breakdown of version compatibility errors and root causes
+* **Technical Solutions**: Complete implementation details for version fixes and wrapper architecture
+* **Testing Results**: Comprehensive verification of fixes and functionality
+* **Integration Details**: How the solution integrates with the existing project infrastructure
+* **Benefits Analysis**: Quantified improvements for users, administrators, and developers
+
+**Key Topics**:
+
+* Version override system architecture and implementation
+* Python wrapper design patterns and best practices
+* Command-line interface design and usability improvements
+* Security considerations and compliance requirements
+* Future enhancement opportunities and roadmap alignment
+
 === link:operators-guide.adoc[Operator's Guide]
 
 **Target Audience**: System administrators, DevOps engineers, and IT operations

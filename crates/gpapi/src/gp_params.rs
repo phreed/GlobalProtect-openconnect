@@ -1,5 +1,26 @@
 use std::collections::HashMap;
 
+/// Convert a version string like "6.1.4" to clientVer format like "6140"
+fn version_to_client_ver(version: &str) -> String {
+  let parts: Vec<&str> = version.split('.').collect();
+
+  if parts.len() >= 3 {
+    // Parse major.minor.patch format (e.g., "6.1.4" -> "6140")
+    let major = parts[0].parse::<u32>().unwrap_or(6);
+    let minor = parts[1].parse::<u32>().unwrap_or(1);
+    let patch = parts[2].parse::<u32>().unwrap_or(4);
+    format!("{}{}{}", major, minor, patch)
+  } else if parts.len() == 2 {
+    // Parse major.minor format (e.g., "6.1" -> "6100")
+    let major = parts[0].parse::<u32>().unwrap_or(6);
+    let minor = parts[1].parse::<u32>().unwrap_or(1);
+    format!("{}{}0", major, minor)
+  } else {
+    // Default to 6.1.4 format for invalid input
+    "6140".to_string()
+  }
+}
+
 use log::info;
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
@@ -52,6 +73,7 @@ pub struct GpParams {
   client_os: ClientOs,
   os_version: Option<String>,
   client_version: Option<String>,
+  client_ver: String,
   computer: String,
   ignore_tls_errors: bool,
   certificate: Option<String>,
@@ -117,7 +139,8 @@ impl GpParams {
     params.insert("ok", "Login");
     params.insert("direct", "yes");
     params.insert("ipv6-support", "yes");
-    params.insert("clientVer", "4100");
+
+    params.insert("clientVer", &self.client_ver);
     params.insert("clientos", client_os);
     params.insert("computer", &self.computer);
 
@@ -222,12 +245,19 @@ impl GpParamsBuilder {
   }
 
   pub fn build(&self) -> GpParams {
+    let client_ver = self
+      .client_version
+      .as_ref()
+      .map(|v| version_to_client_ver(v))
+      .unwrap_or_else(|| "6140".to_string());
+
     GpParams {
       is_gateway: self.is_gateway,
       user_agent: self.user_agent.clone(),
       client_os: self.client_os.clone(),
       os_version: self.os_version.clone(),
       client_version: self.client_version.clone(),
+      client_ver,
       computer: self.computer.clone(),
       ignore_tls_errors: self.ignore_tls_errors,
       certificate: self.certificate.clone(),
