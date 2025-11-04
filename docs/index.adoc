@@ -34,11 +34,11 @@ GlobalProtect OpenConnect is an open-source VPN client that supports the GlobalP
 As of version 2.4.4, the project has achieved:
 
 
-* ✅ **CLI Components Fully Functional**: gpclient, gpservice, and gpauth are production-ready
-* ✅ **Modern Development Environment**: Complete pixi conversion with conda-forge packaging
-* ✅ **Comprehensive Testing**: 100% test pass rate with automated quality assurance
-* ✅ **Professional Documentation**: Complete guides for developers and operators
-* ✅ **Distribution Ready**: Conda packages ready for conda-forge submission
+*  **CLI Components Fully Functional**: gpclient, gpservice, and gpauth are production-ready
+*  **Modern Development Environment**: Complete pixi conversion with conda-forge packaging
+*  **Comprehensive Testing**: 100% test pass rate with automated quality assurance
+*  **Professional Documentation**: Complete guides for developers and operators
+*  **Distribution Ready**: Conda packages ready for conda-forge submission
 
 == Documentation Structure
 
@@ -273,7 +273,7 @@ package "Build System" {
 
 == Project Status and Achievements
 
-=== ✅ Completed Milestones
+===  Completed Milestones
 
 ==== CLI Implementation Success
 - All CLI components build and function correctly

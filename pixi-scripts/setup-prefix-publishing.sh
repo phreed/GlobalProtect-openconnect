@@ -23,15 +23,15 @@ if ! command -v rattler-build &> /dev/null; then
     exit 1
 fi
 
-echo "✅ Environment check passed"
+echo " Environment check passed"
 echo
 
 # Check for rattler auth file
 if [ -n "$RATTLER_AUTH_FILE" ]; then
-    echo "✅ RATTLER_AUTH_FILE is set: $RATTLER_AUTH_FILE"
+    echo " RATTLER_AUTH_FILE is set: $RATTLER_AUTH_FILE"
 
     if [ -f "$RATTLER_AUTH_FILE" ]; then
-        echo "✅ Auth file exists and is accessible"
+        echo " Auth file exists and is accessible"
         echo "   File size: $(du -h "$RATTLER_AUTH_FILE" | cut -f1)"
         echo "   Modified: $(stat -c %y "$RATTLER_AUTH_FILE" 2>/dev/null | cut -d' ' -f1 || date)"
     else
@@ -64,7 +64,7 @@ echo "🔍 Checking for existing packages..."
 # Check if package exists
 if ls output/linux-64/globalprotect-openconnect-cli-*.conda >/dev/null 2>&1; then
     PACKAGE_FILE=$(ls output/linux-64/globalprotect-openconnect-cli-*.conda | head -n 1)
-    echo "✅ Found package: $(basename "$PACKAGE_FILE")"
+    echo " Found package: $(basename "$PACKAGE_FILE")"
 
     # Get package info
     PACKAGE_SIZE=$(du -h "$PACKAGE_FILE" | cut -f1)
@@ -76,7 +76,7 @@ else
     echo
 
     if pixi run ship-cli; then
-        echo "✅ Package built successfully!"
+        echo " Package built successfully!"
         PACKAGE_FILE=$(ls output/linux-64/globalprotect-openconnect-cli-*.conda | head -n 1)
         echo "   Package: $(basename "$PACKAGE_FILE")"
     else
@@ -90,7 +90,7 @@ echo "🌐 Checking prefix.dev connection..."
 
 # Test connection to prefix.dev
 if curl -s --connect-timeout 5 https://prefix.dev > /dev/null; then
-    echo "✅ Connection to prefix.dev successful"
+    echo " Connection to prefix.dev successful"
 else
     echo "❌ Cannot connect to prefix.dev. Check your internet connection."
     exit 1

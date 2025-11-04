@@ -6,22 +6,27 @@
 :icons: font
 :source-highlighter: highlight.js
 
-A comprehensive Python wrapper for the GlobalProtect OpenConnect client that simplifies VPN connections, handles version compatibility issues, and provides multiple connection modes.
+A comprehensive Python wrapper for the GlobalProtect OpenConnect client that simplifies VPN connections,
+handles version compatibility issues, and provides multiple connection modes.
 
 == Overview
 
-The `gpclientw.py` wrapper is a unified solution that combines the functionality of multiple connection scripts into a single, powerful tool. It automatically handles version compatibility issues, provides HIP (Host Integrity Protection) support, and offers multiple connection modes for different use cases.
+The `gpclientw.py` wrapper is a unified solution that combines the functionality of
+multiple connection scripts into a single, powerful tool.
+It automatically handles version compatibility issues,
+provides HIP (Host Integrity Protection) support, and
+offers multiple connection modes for different use cases.
 
 === Key Features
 
-* ✅ *Automatic Version Override*: Fixes "Please ensure the compatible GlobalProtect version is: 6.1.4 or above" errors
-* ✅ *HIP Report Support*: Automatic Host Integrity Protection compliance reporting
-* ✅ *Multiple Connection Modes*: User, root, and userspace modes
-* ✅ *Dynamic Gateway Selection*: Automatically selects appropriate gateways
-* ✅ *Comprehensive Error Handling*: Clear error messages and troubleshooting
-* ✅ *Status Monitoring*: Real-time VPN connection status
-* ✅ *Clean Disconnection*: Proper cleanup and process management
-* ✅ *Cross-Platform*: Works on Linux, macOS, and WSL
+*  *Automatic Version Override*: Fixes "Please ensure the compatible GlobalProtect version is: 6.1.4 or above" errors
+*  *HIP Report Support*: Automatic Host Integrity Protection compliance reporting
+*  *Multiple Connection Modes*: User, root, and userspace modes
+*  *Dynamic Gateway Selection*: Automatically selects appropriate gateways
+*  *Comprehensive Error Handling*: Clear error messages and troubleshooting
+*  *Status Monitoring*: Real-time VPN connection status
+*  *Clean Disconnection*: Proper cleanup and process management
+*  *Cross-Platform*: Works on Linux, macOS, and WSL
 
 == Quick Start
 
@@ -414,11 +419,11 @@ python3 gpclientw.py --status
 ----
 VPN Status Check
 ==================================================
-✅ gpclient processes running: 1234, 5678
-✅ VPN interface (tun0) detected
+ gpclient processes running: 1234, 5678
+ VPN interface (tun0) detected
 
 Testing Vanderbilt connectivity...
-✅ Can access internal Vanderbilt resources
+ Can access internal Vanderbilt resources
 ----
 
 === Network Verification

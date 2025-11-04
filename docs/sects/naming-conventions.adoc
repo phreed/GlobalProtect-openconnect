@@ -490,16 +490,16 @@ When creating new tasks:
 
 **Single-word tasks (missing object):**
 
-- `build` ❌ → use `build-all` ✅
-- `test` ❌ → use `test-all` ✅
-- `clean` ❌ → use `clean-all` ✅
-- `docs` ❌ → use `build-docs` ✅
+- `build` ❌ → use `build-all`
+- `test` ❌ → use `test-all`
+- `clean` ❌ → use `clean-all`
+- `docs` ❌ → use `build-docs`
 
 **Unclear or abbreviated names:**
 
-- `dev` ❌ → use `develop-cli` ✅
-- `pkg` ❌ → use `package-cli` ✅
-- `fmt` ❌ → use `format-code` ✅
+- `dev` ❌ → use `develop-cli`
+- `pkg` ❌ → use `package-cli`
+- `fmt` ❌ → use `format-code`
 
 **Wrong notation:**
 

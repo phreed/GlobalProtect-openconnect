@@ -248,10 +248,10 @@ For unsupported platforms, alternative approaches like source code patching woul
 |Approach |Flexibility |Maintenance |Complexity |Risk
 
 |**LD_PRELOAD (This)**
-|✅ High
-|✅ None
-|✅ Low
-|✅ Low
+| High
+| None
+| Low
+| Low
 
 |Source Patches
 |❌ Fixed
@@ -260,7 +260,7 @@ For unsupported platforms, alternative approaches like source code patching woul
 |⚠️ Medium
 
 |Command-line Options
-|✅ High
+| High
 |❌ High
 |❌ High
 |⚠️ Medium
@@ -294,15 +294,15 @@ After running setup:
 
 The elegant solution achieves all design goals:
 
-* ✅ **Solves the problem**: Eliminates "version 6.1.4 or above" errors
-* ✅ **Zero source changes**: No OpenConnect modifications required
-* ✅ **User configurable**: Any version can be specified per connection
-* ✅ **Easy to use**: Simple one-command setup and familiar interface
-* ✅ **Future proof**: Works with any OpenConnect version
-* ✅ **Well documented**: Comprehensive guides at all levels
-* ✅ **Reliable**: Robust error handling and verification
-* ✅ **Maintainable**: Self-contained with minimal dependencies
-* ✅ **Reversible**: Easy disable without permanent system changes
+*  **Solves the problem**: Eliminates "version 6.1.4 or above" errors
+*  **Zero source changes**: No OpenConnect modifications required
+*  **User configurable**: Any version can be specified per connection
+*  **Easy to use**: Simple one-command setup and familiar interface
+*  **Future proof**: Works with any OpenConnect version
+*  **Well documented**: Comprehensive guides at all levels
+*  **Reliable**: Robust error handling and verification
+*  **Maintainable**: Self-contained with minimal dependencies
+*  **Reversible**: Easy disable without permanent system changes
 
 == Future Considerations
 

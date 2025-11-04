@@ -112,7 +112,7 @@ cd build/gp-override
 
 if command -v gcc &> /dev/null; then
     make
-    echo "✅ Override library built successfully"
+    echo " Override library built successfully"
 else
     echo "❌ ERROR: gcc not found. Cannot build override library."
     echo "Please install gcc or use the patch-based approach instead."
@@ -236,7 +236,7 @@ EOF
 chmod +x "$PROJECT_ROOT/scripts/openconnect-gp"
 
 echo ""
-echo "✅ Elegant GlobalProtect Version Override Created!"
+echo " Elegant GlobalProtect Version Override Created!"
 echo ""
 echo "=== What Was Created ==="
 echo ""
@@ -261,12 +261,12 @@ echo "GP_APP_VERSION=6.2.0 LD_PRELOAD=./gp_version_override.so openconnect --pro
 echo ""
 echo "=== Benefits of This Approach ==="
 echo ""
-echo "✅ No source code patches needed"
-echo "✅ Works with any OpenConnect version"
-echo "✅ User can specify any version"
-echo "✅ Easy to enable/disable"
-echo "✅ No compilation of OpenConnect required"
-echo "✅ Backward compatible"
+echo " No source code patches needed"
+echo " Works with any OpenConnect version"
+echo " User can specify any version"
+echo " Easy to enable/disable"
+echo " No compilation of OpenConnect required"
+echo " Backward compatible"
 echo ""
 echo "This is the most elegant solution - it requires no changes to OpenConnect itself!"
 echo ""

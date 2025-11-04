@@ -118,10 +118,10 @@ else
     echo
     echo -e "${GREEN}🎉 All tests passed!${NC}"
     echo
-    echo -e "${GREEN}✅ CLI build is working perfectly with pixi${NC}"
-    echo -e "${GREEN}✅ All binaries are functional${NC}"
-    echo -e "${GREEN}✅ Package creation successful${NC}"
-    echo -e "${GREEN}✅ Ready for production use${NC}"
+    echo -e "${GREEN} CLI build is working perfectly with pixi${NC}"
+    echo -e "${GREEN} All binaries are functional${NC}"
+    echo -e "${GREEN} Package creation successful${NC}"
+    echo -e "${GREEN} Ready for production use${NC}"
     echo
     echo "Available commands:"
     echo "  pixi run build-cli     # Build CLI binaries"

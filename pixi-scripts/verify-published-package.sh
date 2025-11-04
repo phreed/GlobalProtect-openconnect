@@ -33,13 +33,13 @@ else
     exit 1
 fi
 
-echo "✅ Using package manager: $CONDA_CMD"
+echo " Using package manager: $CONDA_CMD"
 echo
 
 # Test channel accessibility
 echo "🌐 Testing channel accessibility..."
 if curl -s --connect-timeout 10 "$CHANNEL_URL/noarch/repodata.json" > /dev/null; then
-    echo "✅ Channel is accessible"
+    echo " Channel is accessible"
 else
     echo "❌ Channel is not accessible"
     echo "   URL: $CHANNEL_URL"
@@ -59,7 +59,7 @@ else
 fi
 
 if echo "$SEARCH_RESULT" | grep -q "$PACKAGE_NAME"; then
-    echo "✅ Package found in channel!"
+    echo " Package found in channel!"
     echo
     echo "📋 Available versions:"
     echo "$SEARCH_RESULT" | grep "$PACKAGE_NAME" | head -5

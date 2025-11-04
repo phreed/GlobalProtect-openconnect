@@ -19,7 +19,7 @@ The primary command-line interface for VPN operations:
 * **Enhanced Error Handling**: Provides clear, actionable error messages for authentication issues
 * **Status Reporting**: Provides detailed connection status and diagnostics
 * **Binary Size**: ~3.8 MB
-* **Status**: ✅ Production Ready
+* **Status**:  Production Ready
 
 **Authentication Workflow**: `gpclient` automatically handles authentication by:
 
@@ -46,7 +46,7 @@ The system service component that manages VPN operations:
 * **Automatic Reconnection**: Handles connection recovery and failover
 * **Resource Management**: Manages system resources and permissions
 * **Binary Size**: ~3.9 MB
-* **Status**: ✅ Production Ready
+* **Status**:  Production Ready
 
 **gpauth - Authentication Handler**
 
@@ -61,7 +61,7 @@ Specialized component for handling authentication flows:
 * **Session Management**: Manages authentication sessions and secure token exchange
 * **Standalone Operation**: Can be used independently or automatically by gpclient
 * **Binary Size**: ~3.8 MB
-* **Status**: ✅ Production Ready
+* **Status**:  Production Ready
 
 **Integration with gpclient**:
 

@@ -14,15 +14,15 @@ This section summarizes the current status of WebKit dependencies for the Global
 |Component |Status |Notes
 
 |CLI Build
-|✅ **Working**
+| **Working**
 |Builds cleanly on all platforms
 
 |Frontend Build
-|✅ **Working**
+| **Working**
 |Vite/TypeScript builds successfully
 
 |CLI Packaging
-|✅ **Working**
+| **Working**
 |Conda packages generate correctly
 
 |Full GUI Build
@@ -42,7 +42,7 @@ This affects immutable systems like Fedora Silverblue, Bluefin, and container en
 
 == Working Solutions
 
-**✅ Solution 1: CLI-Only Build (Recommended)**
+** Solution 1: CLI-Only Build (Recommended)**
 
 The CLI build provides full VPN functionality without GUI dependencies:
 
@@ -65,7 +65,7 @@ pixi run package-cli
 * Production-ready and thoroughly tested
 * Full VPN functionality included
 
-**✅ Solution 2: System WebKit Installation**
+** Solution 2: System WebKit Installation**
 
 **Fedora Silverblue/Bluefin**
 
@@ -112,7 +112,7 @@ pixi run verify-webkit-deps
 pixi run build-all
 ----
 
-**✅ Solution 3: Container-based Development**
+** Solution 3: Container-based Development**
 
 For systems where installing webkit system packages isn't feasible:
 

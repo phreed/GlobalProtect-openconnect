@@ -23,7 +23,7 @@ fi
 
 # Verify library exists now
 if [ -f "gp_version_override.so" ]; then
-    echo "✅ Override library found: gp_version_override.so"
+    echo " Override library found: gp_version_override.so"
 else
     echo "❌ Override library creation failed"
     exit 1
@@ -31,16 +31,16 @@ fi
 
 # Check wrapper script
 if [ -f "scripts/openconnect-gp" ] && [ -x "scripts/openconnect-gp" ]; then
-    echo "✅ Wrapper script found: scripts/openconnect-gp"
+    echo " Wrapper script found: scripts/openconnect-gp"
 else
     echo "❌ Wrapper script not found or not executable"
     exit 1
 fi
 
 # Test wrapper script help
-echo "✅ Testing wrapper script help functionality..."
+echo " Testing wrapper script help functionality..."
 if scripts/openconnect-gp --help >/dev/null 2>&1; then
-    echo "✅ Wrapper script help works correctly"
+    echo " Wrapper script help works correctly"
 else
     echo "⚠️  Wrapper script help may have issues"
 fi
@@ -74,16 +74,16 @@ echo ""
 echo "=== What This Solves ==="
 echo ""
 echo "❌ Before: \"Please ensure the compatible GlobalProtect version is: 6.1.4 or above\""
-echo "✅ After:  Connection works with any version you specify!"
+echo " After:  Connection works with any version you specify!"
 echo ""
 
 echo "=== Benefits ==="
 echo ""
-echo "✅ No OpenConnect source modifications needed"
-echo "✅ Works with any OpenConnect version (past, present, future)"
-echo "✅ User can specify any GlobalProtect version per connection"
-echo "✅ Easy to enable/disable (just remove LD_PRELOAD)"
-echo "✅ Maintenance-free - set up once, use forever"
+echo " No OpenConnect source modifications needed"
+echo " Works with any OpenConnect version (past, present, future)"
+echo " User can specify any GlobalProtect version per connection"
+echo " Easy to enable/disable (just remove LD_PRELOAD)"
+echo " Maintenance-free - set up once, use forever"
 echo ""
 
 echo "🚀 **Ready to fix your GlobalProtect version issues!**"

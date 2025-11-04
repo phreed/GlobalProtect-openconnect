@@ -22,11 +22,11 @@ This roadmap outlines the planned development tasks and enhancements for the Glo
 
 As of version 2.4.4, the project has achieved:
 
-* ✅ **Complete CLI Implementation**: All CLI components (gpclient, gpservice, gpauth) are fully functional
-* ✅ **Pixi Build System**: Modern development environment with conda-forge integration
-* ✅ **Conda Packaging**: Production-ready conda packages for distribution
-* ✅ **Comprehensive Testing**: Full test suite with 100% pass rate
-* ✅ **Documentation**: Complete developer and operator guides
+*  **Complete CLI Implementation**: All CLI components (gpclient, gpservice, gpauth) are fully functional
+*  **Pixi Build System**: Modern development environment with conda-forge integration
+*  **Conda Packaging**: Production-ready conda packages for distribution
+*  **Comprehensive Testing**: Full test suite with 100% pass rate
+*  **Documentation**: Complete developer and operator guides
 
 == Roadmap Overview
 
