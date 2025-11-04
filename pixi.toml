@@ -26,6 +26,7 @@ krb5 = "*"
 p11-kit = "*"
 libiconv = "*"
 lz4-c = "*"
+zlib = "*"
 
 # GUI dependencies for GTK/Cairo
 cairo = "*"
@@ -100,25 +101,42 @@ outputs = ["apps/gpgui-helper/dist/**/*"]
 [tasks.build-rust]
 cmd = "./pixi-scripts/build-rust.sh"
 cwd = "."
-description = "Build Rust components"
+description = "Build Rust CLI components only (avoiding webkit dependencies)"
 inputs = [
   "Cargo.toml",
   "Cargo.lock",
-  "apps/**/Cargo.toml",
+  "apps/gpclient/Cargo.toml",
+  "apps/gpservice/Cargo.toml",
+  "apps/gpauth/Cargo.toml",
   "crates/**/Cargo.toml",
-  "apps/**/src/**/*.rs",
+  "apps/gpclient/src/**/*.rs",
+  "apps/gpservice/src/**/*.rs",
+  "apps/gpauth/src/**/*.rs",
   "crates/**/src/**/*.rs",
   "scripts/env/setup-pkgconfig.sh"
 ]
 outputs = [
   "target/release/gpclient",
   "target/release/gpservice",
-  "target/release/gpauth",
-  "target/release/gpgui-helper"
+  "target/release/gpauth"
 ]
 
+[tasks.build-gui]
+cmd = "./pixi-scripts/build-gui.sh"
+cwd = "."
+description = "Build GUI components (requires system webkit dependencies, provides instructions if missing)"
+inputs = [
+  "Cargo.toml",
+  "Cargo.lock",
+  "apps/gpgui-helper/src-tauri/Cargo.toml",
+  "apps/gpgui-helper/src-tauri/src/**/*.rs",
+  "crates/**/Cargo.toml",
+  "crates/**/src/**/*.rs"
+]
+# Note: outputs are optional - GUI build may be skipped if webkit dependencies unavailable
+
 [tasks.build-all]
-depends-on = ["setup-corepack", "build-frontend", "build-rust"]
+depends-on = ["setup-corepack", "build-frontend", "build-rust", "build-gui"]
 description = "Complete build process"
 
 

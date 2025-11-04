@@ -27,6 +27,7 @@ fn main() {
   println!("cargo:rustc-link-lib=iconv");
   println!("cargo:rustc-link-lib=pcsclite");
   println!("cargo:rustc-link-lib=lz4");
+  println!("cargo:rustc-link-lib=z");
 
   println!("cargo:rerun-if-changed=src/ffi/vpn.c");
   println!("cargo:rerun-if-changed=src/ffi/vpn.h");

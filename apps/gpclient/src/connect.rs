@@ -96,6 +96,9 @@ pub(crate) struct ConnectArgs {
   #[arg(long, help = "Disable DTLS and ESP")]
   no_dtls: bool,
 
+  #[arg(long, default_value = "0", help = "Dead peer detection interval in seconds")]
+  dpd_interval: Option<u32>,
+
   #[arg(
     long,
     default_value = "6.1.4",
