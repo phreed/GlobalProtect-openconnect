@@ -107,7 +107,7 @@ Or you can try the following command if the above command does not work:
 gpauth <portal> --browser default 2>/dev/null | sudo gpclient connect <portal> --cookie-on-stdin
 ```
 
-You can specify the browser with the `--browser <browser>` option, e.g., `--browser firefox`, `--browser chrome`, etc.
+You can specify the browser with the `--browser <browser>` option, e.g., `--browser firefox`, `--browser chrome`, etc. Use `--browser remote` to use a remote browser for authentication, this will give you a URL you can access on a separate computer with a browser to complete authentication. Useful for headless servers.
 
 ### GUI
 
@@ -210,7 +210,7 @@ You can build the client from source using pixi (recommended for development), a
 
 ### Option 1: Using Pixi (Recommended for Development)
 
-✅ **Current Status**: CLI build fully working with conda packaging
+**Current Status**: CLI build fully working with conda packaging
 
 This project uses [pixi](https://pixi.sh/) for modern, reproducible development environments with conda-forge packages. The CLI components build successfully and are production-ready.
 
@@ -233,7 +233,7 @@ This project uses [pixi](https://pixi.sh/) for modern, reproducible development 
 
 3. Build the project:
    ```bash
-   # Build CLI components (✅ fully working)
+   # Build CLI components ( fully working)
    pixi run build-cli
    
    # Test CLI functionality
@@ -244,9 +244,9 @@ This project uses [pixi](https://pixi.sh/) for modern, reproducible development 
    ```
 
 4. The built binaries will be available in `target/release/`:
-   - `gpclient` (4.0 MB) - CLI client ✅ Working
-   - `gpservice` (3.9 MB) - Background service ✅ Working
-   - `gpauth` (3.8 MB) - Authentication helper ✅ Working
+   - `gpclient` (4.0 MB) - CLI client  Working
+   - `gpservice` (3.9 MB) - Background service  Working
+   - `gpauth` (3.8 MB) - Authentication helper  Working
    - `gpgui-helper` - GUI helper (🔄 In development)
 
 5. Verify the build with comprehensive tests:
@@ -311,7 +311,7 @@ pixi run format
 # Run linting
 pixi run lint
 
-# Create conda package with rattler-build (✅ working for CLI)
+# Create conda package with rattler-build ( working for CLI)
 pixi run package-cli
 
 # Complete CLI workflow (build + test + package)
@@ -340,12 +340,12 @@ pixi run -e dev build
 
 #### Conda-Forge Packaging
 
-✅ **Status**: CLI packaging fully working and ready for conda-forge submission
+**Status**: CLI packaging fully working and ready for conda-forge submission
 
 This project includes [rattler-build](https://github.com/prefix-dev/rattler-build) configuration for creating conda-forge compatible packages:
 
 ```bash
-# Create CLI conda package (✅ working)
+# Create CLI conda package ( working)
 pixi run package-cli
 
 # Or directly with rattler-build
@@ -406,7 +406,57 @@ This project includes a devcontainer configuration that provides a consistent bu
 
 #### Prerequisites
 
-- [Install Rust 1.80 or later](https://www.rust-lang.org/tools/install)
+This project includes a devcontainer configuration that provides a consistent build environment with all dependencies pre-installed.
+
+#### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [VS Code](https://code.visualstudio.com/) with [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) (optional, for IDE support)
+
+#### Build Steps
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yuezk/GlobalProtect-openconnect.git
+   cd GlobalProtect-openconnect
+   ```
+
+2. Build the devcontainer image:
+   ```bash
+   docker build -t gpoc-devcontainer .devcontainer/
+   ```
+
+3. Install `jq` in the container and build the project:
+   ```bash
+   docker run --privileged --cap-add=NET_ADMIN --device=/dev/net/tun \
+     -v "$(pwd)":/workspace -w /workspace --user root gpoc-devcontainer \
+     bash -c "apt-get update && apt-get install -y jq"
+   
+   docker run --privileged --cap-add=NET_ADMIN --device=/dev/net/tun \
+     -v "$(pwd)":/workspace -w /workspace gpoc-devcontainer \
+     bash -c "export PATH=/usr/local/cargo/bin:\$PATH && make build"
+   ```
+
+4. The built binaries will be available in `target/release/`:
+   - `gpclient` - CLI client
+   - `gpservice` - Background service
+   - `gpauth` - Authentication helper
+   - `gpgui-helper` - GUI helper
+
+#### Alternative: VS Code DevContainer
+
+1. Open the project in VS Code
+2. When prompted, click "Reopen in Container" or run the command "Dev Containers: Reopen in Container"
+3. Once the container is built and running, open a terminal in VS Code and run:
+   ```bash
+   make build
+   ```
+
+### Option 2: Local Build
+
+#### Prerequisites
+
+- [Install Rust 1.82 or later](https://www.rust-lang.org/tools/install)
 - Install Tauri dependencies: https://tauri.app/start/prerequisites/
 - Install `perl` and `jq`
 - Install `openconnect >= 8.20` and `libopenconnect-dev` (or `openconnect-devel` on RPM-based distributions)
@@ -443,14 +493,14 @@ pixi run test-cli-comprehensive
 
 ### Conda-Forge Packaging
 
-✅ **Status**: CLI packaging fully working and ready for conda-forge submission
+ **Status**: CLI packaging fully working and ready for conda-forge submission
 
 This project uses [rattler-build](https://github.com/prefix-dev/rattler-build) to create conda-forge compatible packages.
 
 #### Creating a Conda Package
 
 ```bash
-# CLI package (✅ working)
+# CLI package ( working)
 pixi run package-cli
 
 # Or directly with rattler-build
@@ -467,9 +517,9 @@ The CLI conda package (3.7 MB) includes:
 #### Distribution
 
 The generated CLI package:
-- ✅ Ready for conda-forge submission
-- ✅ Can be installed locally with `conda install`
-- ✅ Available for private conda channels
+-  Ready for conda-forge submission
+-  Can be installed locally with `conda install`
+-  Available for private conda channels
 
 For detailed packaging procedures, see the [Developer's Guide](docs/developers-guide.adoc) and [Operator's Guide](docs/operators-guide.adoc).
 

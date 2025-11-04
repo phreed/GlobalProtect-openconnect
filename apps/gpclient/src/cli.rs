@@ -127,7 +127,7 @@ impl Cli {
     }
 
     // check if an instance is running
-    if self.is_running().await {
+    if !matches!(self.command, CliCommand::Disconnect(_)) && self.is_running().await {
       bail!("Another instance of the client is already running");
     }
 

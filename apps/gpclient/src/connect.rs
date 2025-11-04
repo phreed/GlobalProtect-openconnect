@@ -10,7 +10,7 @@ use gpapi::{
   error::PortalError,
   gateway::{gateway_login, GatewayLogin},
   gp_params::{ClientOs, GpParams},
-  portal::{prelogin, retrieve_config, Prelogin},
+  portal::{prelogin, retrieve_config, Prelogin, StandardPrelogin},
   process::{
     auth_launcher::SamlAuthLauncher,
     users::{get_non_root_user, get_user_by_name},
@@ -117,7 +117,7 @@ pub(crate) struct ConnectArgs {
 
   #[arg(
     long,
-    help = "Use the specified browser to authenticate, e.g., `default`, `firefox`, `chrome`, `chromium`, or the path to the browser executable"
+    help = "Use the specified browser to authenticate, e.g., `default`, `firefox`, `chrome`, `chromium`, `remote`, or the path to the browser executable. Use 'remote' for headless servers."
   )]
   browser: Option<String>,
 }
@@ -148,6 +148,7 @@ pub(crate) struct ConnectHandler<'a> {
   args: &'a ConnectArgs,
   shared_args: &'a SharedArgs<'a>,
   latest_key_password: RefCell<Option<String>>,
+  password_from_stdin: RefCell<Option<String>>,
 }
 
 impl<'a> ConnectHandler<'a> {
@@ -156,6 +157,7 @@ impl<'a> ConnectHandler<'a> {
       args,
       shared_args,
       latest_key_password: Default::default(),
+      password_from_stdin: Default::default(),
     }
   }
 
@@ -336,6 +338,7 @@ impl<'a> ConnectHandler<'a> {
       .mtu(mtu)
       .disable_ipv6(self.args.disable_ipv6)
       .no_dtls(self.args.no_dtls)
+      .dpd_interval(self.args.dpd_interval.unwrap_or(0))
       .build()?;
 
     let vpn = Arc::new(vpn);
@@ -410,23 +413,40 @@ impl<'a> ConnectHandler<'a> {
           |user| Ok(user.to_owned()),
         )?;
 
-        let password = if self.args.passwd_on_stdin {
-          info!("Reading password from standard input");
-          let mut input = String::new();
-          std::io::stdin().read_line(&mut input)?;
-          input.trim_end().to_owned()
-        } else {
-          Password::new(&format!("{}:", prelogin.label_password()))
-            .without_confirmation()
-            .with_display_mode(PasswordDisplayMode::Masked)
-            .prompt()?
-        };
-
+        let password = self.obtain_password(prelogin)?;
         let password_cred = PasswordCredential::new(&user, &password);
 
         Ok(password_cred.into())
       }
     }
+  }
+
+  fn obtain_password(&self, prelogin: &StandardPrelogin) -> anyhow::Result<String> {
+    let password = if self.args.passwd_on_stdin {
+      // If the password has been read from stdin, use it directly
+      if let Some(password) = self.password_from_stdin.borrow().as_ref() {
+        info!("Reusing the password read from standard input");
+        return Ok(password.clone());
+      }
+
+      info!("Reading password from standard input");
+      let mut input = String::new();
+      std::io::stdin().read_line(&mut input)?;
+      let password = input.trim_end().to_owned();
+      // Considering that the gateway connection may fail even though the password read
+      // from stdin is correct. It may retry the gateway connection, so we need to
+      // save the password read from stdin to avoid reading stdin again.
+      self.password_from_stdin.replace(Some(password.clone()));
+
+      password
+    } else {
+      Password::new(&format!("{}:", prelogin.label_password()))
+        .without_confirmation()
+        .with_display_mode(PasswordDisplayMode::Masked)
+        .prompt()?
+    };
+
+    Ok(password)
   }
 }
 
