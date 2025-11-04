@@ -171,7 +171,6 @@ test_required_tasks() {
     # Setup Actions
     local setup_tasks=(
         "setup-corepack"
-        "setup-dev"
         "setup-env"
         "setup-publishing"
     )

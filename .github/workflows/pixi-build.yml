@@ -162,9 +162,6 @@ jobs:
       - name: Install dependencies
         run: pixi install -e dev
 
-      - name: Setup development environment
-        run: pixi run -e dev setup-dev
-
       - name: Check formatting
         run: pixi run -e dev check-format
 

@@ -8,7 +8,7 @@ License:        GPL-3.0
 URL:            https://github.com/yuezk/GlobalProtect-openconnect
 Source:         @SOURCE@
 
-BuildRequires:  make
+BuildRequires:  pixi
 BuildRequires:  rust
 BuildRequires:  cargo
 BuildRequires:  jq
@@ -45,10 +45,18 @@ rm -f %{_bindir}/gpgui
 %build
 # The injected RUSTFLAGS could fail the build
 unset RUSTFLAGS
-make build OFFLINE=@OFFLINE@ BUILD_FE=0
+# Build using pixi environment
+if [ "@OFFLINE@" = "1" ]; then
+  OFFLINE=1 pixi run build-cli
+else
+  pixi run build-cli
+fi
 
 %install
-%make_install
+# Install using pixi install script
+export BUILD_GUI=0
+export DESTDIR=%{buildroot}
+pixi run install
 
 %files
 %defattr(-,root,root)

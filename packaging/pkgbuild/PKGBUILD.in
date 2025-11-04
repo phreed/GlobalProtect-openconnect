@@ -8,7 +8,7 @@ pkgdesc="A GUI for GlobalProtect VPN, based on OpenConnect, supports the SSO aut
 arch=('x86_64' 'aarch64')
 url="https://github.com/yuezk/GlobalProtect-openconnect"
 license=('GPL3')
-makedepends=('make' 'pkg-config' 'rust' 'cargo' 'jq' 'webkit2gtk-4.1' 'curl' 'wget' 'file' 'openssl' 'appmenu-gtk-module' 'libappindicator-gtk3' 'librsvg' 'openconnect' 'libsecret')
+makedepends=('pixi' 'pkg-config' 'rust' 'cargo' 'jq' 'webkit2gtk-4.1' 'curl' 'wget' 'file' 'openssl' 'appmenu-gtk-module' 'libappindicator-gtk3' 'librsvg' 'openconnect' 'libsecret')
 depends=('openconnect>=8.20' webkit2gtk-4.1 libappindicator-gtk3 libsecret)
 optdepends=('wmctrl: for window management')
 
@@ -25,11 +25,19 @@ build() {
   # Must unset the CFLAGS, otherwise the build fails
   unset CFLAGS
 
-  make build OFFLINE=@OFFLINE@ BUILD_FE=0
+  # Build using pixi environment
+  if [ "@OFFLINE@" = "1" ]; then
+    OFFLINE=1 pixi run build-cli
+  else
+    pixi run build-cli
+  fi
 }
 
 package() {
   cd "$pkgname-$pkgver"
 
-  make install DESTDIR="$pkgdir"
+  # Install using pixi install script
+  export BUILD_GUI=0
+  export DESTDIR="$pkgdir"
+  pixi run install
 }

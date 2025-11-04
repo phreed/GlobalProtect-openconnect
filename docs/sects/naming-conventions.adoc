@@ -239,7 +239,6 @@ Configure environments and dependencies:
 
 - `setup-corepack` - Setup Node.js corepack
 - `setup-env` - Setup PKG_CONFIG_PATH environment
-- `setup-dev` - Setup development dependencies
 - `setup-publishing` - Setup publishing environment
 
 ==== Build Actions
@@ -364,7 +363,6 @@ This table provides a comprehensive reference of all pixi tasks organized by the
 |Task Name |Description |Pattern |Category
 
 |`setup-corepack` |Setup Node.js corepack |action-object |Setup
-|`setup-dev` |Setup development dependencies |action-object |Setup
 |`setup-env` |Setup PKG_CONFIG_PATH environment |action-object |Setup
 |`setup-publishing` |Setup publishing environment |action-object |Setup
 

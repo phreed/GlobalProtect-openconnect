@@ -200,7 +200,7 @@ sudo emerge -av net-vpn/GlobalProtect-openconnect
 - Install `openconnect >= 8.20`, `webkit2gtk`, `libsecret`, `libayatana-appindicator` or `libappindicator-gtk3`.
 - Download `globalprotect-openconnect_${version}_${arch}.bin.tar.xz` from [releases](https://github.com/yuezk/GlobalProtect-openconnect/releases) page.
 - Extract the tarball with `tar -xJf globalprotect-openconnect_${version}_${arch}.bin.tar.xz`.
-- Run `sudo make install` to install the client.
+- Run `sudo ./install.sh` to install the client.
 
 ## Build from source
 
@@ -384,7 +384,7 @@ This project includes a devcontainer configuration that provides a consistent bu
    
    docker run --privileged --cap-add=NET_ADMIN --device=/dev/net/tun \
      -v "$(pwd)":/workspace -w /workspace gpoc-devcontainer \
-     bash -c "export PATH=/usr/local/cargo/bin:\$PATH && make build"
+     bash -c "export PATH=/usr/local/cargo/bin:\$PATH && pixi run build-all"
    ```
 
 4. The built binaries will be available in `target/release/`:
@@ -399,7 +399,7 @@ This project includes a devcontainer configuration that provides a consistent bu
 2. When prompted, click "Reopen in Container" or run the command "Dev Containers: Reopen in Container"
 3. Once the container is built and running, open a terminal in VS Code and run:
    ```bash
-   make build
+   pixi run build-all
    ```
 
 ### Option 3: Local Build
@@ -434,7 +434,7 @@ This project includes a devcontainer configuration that provides a consistent bu
    
    docker run --privileged --cap-add=NET_ADMIN --device=/dev/net/tun \
      -v "$(pwd)":/workspace -w /workspace gpoc-devcontainer \
-     bash -c "export PATH=/usr/local/cargo/bin:\$PATH && make build"
+     bash -c "export PATH=/usr/local/cargo/bin:\$PATH && pixi run build-all"
    ```
 
 4. The built binaries will be available in `target/release/`:
@@ -449,7 +449,7 @@ This project includes a devcontainer configuration that provides a consistent bu
 2. When prompted, click "Reopen in Container" or run the command "Dev Containers: Reopen in Container"
 3. Once the container is built and running, open a terminal in VS Code and run:
    ```bash
-   make build
+   pixi run build-all
    ```
 
 ### Option 2: Local Build
@@ -467,8 +467,8 @@ This project includes a devcontainer configuration that provides a consistent bu
 
 1. Download the source code tarball from [releases](https://github.com/yuezk/GlobalProtect-openconnect/releases) page. Choose `globalprotect-openconnect-${version}.tar.gz`.
 2. Extract the tarball with `tar -xzf globalprotect-openconnect-${version}.tar.gz`.
-3. Enter the source directory and run `make build BUILD_FE=0` to build the client.
-4. Run `sudo make install` to install the client. (Note, `DESTDIR` is not supported)
+3. Enter the source directory and run `pixi run build-cli` to build the client.
+4. Run `sudo pixi run install` to install the client.
 
 ### Testing the Build
 
